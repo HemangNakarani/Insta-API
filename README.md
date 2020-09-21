@@ -22,7 +22,7 @@
 - Chat
 - Real time Notifications
 - Story for 24 hours
-- Archived Stories
+- Archived Stories,Posts
 
 ## Development
 - You should have PostgreSQL and Redis-Server running on your machine
