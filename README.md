@@ -10,6 +10,7 @@
 - Web Sockets
 - Django Channels
 - Redis Server
+- cronjob for Scheduling
 - pip
 - virtual env
 - PyCharm
