@@ -26,7 +26,7 @@
 ## Development
 - You should have PostgreSQL and Redis-Server running on your machine
 - Create Virtual Environment
-- Install Following Dependencies
+- Install Following Dependencies using pip
   - django, pillow, channels, channels_redis, rest-framework
 - Configure Database, Username and Password in .env File
   - If you need to change server urls then you can change it in Instagram > settings.py file.
