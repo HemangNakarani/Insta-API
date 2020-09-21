@@ -37,6 +37,10 @@ python manage.py makemigrations
 python manage.py migrate
 python manage.py runserver
 ```
+## Debugging
+- Chrome Browser
+- Postman
+- WebSocker King
 
 ## License
 This project is licensed under the MIT License - Copyright (c) 2020 Hemang Nakarani
