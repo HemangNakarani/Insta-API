@@ -17,9 +17,10 @@
 ## Features
 - User Management
 - Post Management
-- Follow/Unfollow
+- Request-Follow-Unfollow
 - Like, Comment
 - Chat
+- Real time Notifications
 - Story for 24 hours
 - Archived Stories
 
