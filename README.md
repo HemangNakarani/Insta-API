@@ -31,7 +31,7 @@
 - Install Following Dependencies using pip
   - django, pillow, channels, channels_redis, rest_framework
 - Configure Database, Username and Password in .env File
-  - If you need to change server urls then you can change it in Instagram > settings.py file.
+  - If you need to change server urls then you can change it in ```Instagram > settings.py``` file.
 - Run following Commands
 ```
 python manage.py makemigrations
