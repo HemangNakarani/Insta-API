@@ -27,11 +27,11 @@
 
 ## Development
 - You should have PostgreSQL and Redis-Server running on your machine
-  - For setting up Database and Password
-  ```psql -U postgres``` - in windows
-  ```sudo -u postgres psql``` - in Linux
-  
+  - For setting up Database and Password run
   ```
+  psql -U postgres  -For Windows
+  sudo -u postgres psql -For Linux
+
   postgres=# CREATE USER instagram WITH SUPERUSER CREATEDB CREATEROLE PASSWORD 'instagram';
   postgres=# CREATE DATABASE instagram OWNER instagram;
   ```
