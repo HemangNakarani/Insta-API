@@ -45,6 +45,11 @@ INSTALLED_APPS = [
     'post',
     'chat',
     'channels',
+    'django_crontab',
+]
+
+CRONJOBS = [
+    ('* * * * *', 'core.cron.manage_stories')
 ]
 
 MIDDLEWARE = [
