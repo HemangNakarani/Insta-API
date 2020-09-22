@@ -27,9 +27,17 @@
 
 ## Development
 - You should have PostgreSQL and Redis-Server running on your machine
+  - For setting up Database and Password run
+  ```
+  psql -U postgres  -For Windows
+  sudo -u postgres psql -For Linux
+
+  postgres=# CREATE USER instagram WITH SUPERUSER CREATEDB CREATEROLE PASSWORD 'instagram';
+  postgres=# CREATE DATABASE instagram OWNER instagram;
+  ```
 - Create Virtual Environment
 - Install Following Dependencies using pip
-  - django, pillow, channels, channels_redis, rest_framework
+  - django, pillow, channels, channels_redis, djangorestframework, python-decouple, psycopg2 or psycopg2-binary
 - Configure Database, Username and Password in .env File
   - If you need to change server urls then you can change it in ```Instagram > settings.py``` file.
 - Run following Commands
