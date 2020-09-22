@@ -13,6 +13,14 @@ def image_file_path(instance, filename):
     return os.path.join('uploads/', filename)
 
 
+def story_file_path(instance, filename):
+    """Generate file path for new recipe image"""
+    ext = filename.split('.')[-1]
+    filename = f'{uuid.uuid4()}.{ext}'
+
+    return os.path.join('stories/', filename)
+
+
 class UserManager(BaseUserManager):
 
     def create_user(self, email, username, password=None, **extra_fields):
@@ -42,7 +50,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=255, unique=True)
     fullname = models.CharField(max_length=60, blank=True)
     bio = models.TextField(blank=True)
-    url = models.URLField(max_length=200,blank=True)
+    url = models.URLField(max_length=200, blank=True)
     profile_pic = models.ImageField(
         upload_to=image_file_path,
         default='avatar.png')
@@ -57,9 +65,9 @@ class User(AbstractBaseUser, PermissionsMixin):
                                        symmetrical=False)
 
     requests = models.ManyToManyField(settings.AUTH_USER_MODEL,
-                                       related_name="user_requested",
-                                       blank=True,
-                                       symmetrical=False)
+                                      related_name="user_requested",
+                                      blank=True,
+                                      symmetrical=False)
 
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
@@ -137,3 +145,47 @@ class Comment(models.Model):
 
     def __str__(self):
         return f'{self.author}\'s comment'
+
+
+class Story(models.Model):
+
+    id = models.UUIDField(primary_key=True,
+                          default=uuid.uuid4,
+                          editable=False)
+
+    author = models.ForeignKey(settings.AUTH_USER_MODEL,
+                               related_name="user_story",
+                               on_delete=models.CASCADE, )
+
+    posted_on = models.DateTimeField(auto_now_add=True)
+
+    story_image = models.ImageField(upload_to=story_file_path,
+                                    default='story.png')
+
+    views = models.ManyToManyField(settings.AUTH_USER_MODEL,
+                                   related_name="story_viewers",
+                                   blank=True,
+                                   symmetrical=False)
+
+    tagged = models.ManyToManyField(settings.AUTH_USER_MODEL,
+                                    related_name="story_tagged",
+                                    blank=True,
+                                    symmetrical=False)
+
+    def number_of_views(self):
+        if self.views.count():
+            return self.views.count()
+        else:
+            return 0
+
+    def number_of_tags(self):
+        if self.tagged.count():
+            return self.tagged.count()
+        else:
+            return 0
+
+    class Meta:
+        ordering = ['-posted_on']
+
+    def __str__(self):
+        return f'{self.author}\'s story'

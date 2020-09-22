@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 from django.core.paginator import Paginator
 from rest_framework import serializers
 
-from core.models import Post, Comment
+from core.models import Post, Comment, Story
 
 
 class AuthorSerializer(serializers.ModelSerializer):
@@ -51,3 +51,26 @@ class PostSerializer(serializers.ModelSerializer):
     def get_liked_by_req_user(self, obj):
         user = self.context['request'].user
         return user in obj.likes.all()
+
+
+class StorySerializer(serializers.ModelSerializer):
+    author = AuthorSerializer(read_only=True)
+    story_image = serializers.ImageField(max_length=None, allow_empty_file=False)
+
+    class Meta:
+        model = Story
+        fields = ('id', 'author', 'posted_on', 'story_image', 'number_of_views', 'number_of_tags')
+
+
+class StoryFeedSerializer(serializers.ModelSerializer):
+    author = AuthorSerializer(read_only=True)
+
+    class Meta:
+        model = Story
+        fields = ('author', 'posted_on', 'story_image')
+
+
+class StoryViewerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = get_user_model()
+        fields = ('username', 'profile_pic', 'fullname')

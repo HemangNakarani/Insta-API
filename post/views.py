@@ -1,12 +1,13 @@
 from django.shortcuts import render
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.views import APIView
-from .serializers import PostSerializer, CommentSerializer, AuthorSerializer
+from .serializers import PostSerializer, CommentSerializer, AuthorSerializer, StoryFeedSerializer, StoryViewerSerializer,StorySerializer
 from rest_framework import permissions, generics, status
-from core.models import Post, Comment
+from rest_framework.permissions import IsAuthenticated
+from core.models import Post, Comment, Story
 from .permissions import IsOwnerOrPostOwnerOrReadOnly, IsOwnerOrReadOnly
 from rest_framework.response import Response
-from core.pagination import FollowersLikersPagination
+from core.pagination import FollowersLikersPagination, StoryViewerPagination
 
 
 class PostViewSet(ModelViewSet):
@@ -80,4 +81,50 @@ class ListFeedView(generics.ListAPIView):
         user = self.request.user
         following_users = user.following.all()
         queryset = Post.objects.all().filter(author__in=following_users)
+        return queryset
+
+
+class StoryViewSet(ModelViewSet):
+    serializer_class = StorySerializer
+    permission_classes = (IsAuthenticated,)
+
+    def perform_create(self, serializer):
+        serializer.save(author=self.request.user)
+
+    def get_queryset(self):
+        return Story.objects.all().filter(author=self.request.user)
+
+
+class GetStoryViewers(generics.ListAPIView):
+    serializer_class = StoryViewerSerializer
+    permission_classes = (IsAuthenticated,)
+    pagination_class = StoryViewerPagination
+
+    def get_queryset(self):
+        story_id = self.kwargs['story_id']
+        story_obj = Story.objects.get(pk=story_id)
+        queryset = story_obj.views.all()
+        return queryset
+
+
+class GetStoryTagged(generics.ListAPIView):
+    serializer_class = StoryViewerSerializer
+    permission_classes = (IsAuthenticated,)
+    pagination_class = StoryViewerPagination
+
+    def get_queryset(self):
+        story_id = self.kwargs['story_id']
+        story_obj = Story.objects.get(pk=story_id)
+        queryset = story_obj.tagged.all()
+        return queryset
+
+
+class GetFeedStories(generics.ListAPIView):
+    serializer_class = StoryFeedSerializer
+    permission_classes = (IsAuthenticated,)
+
+    def get_queryset(self):
+        user = self.request.user
+        following_users = user.following.all()
+        queryset = Story.objects.all().filter(author__in=following_users)
         return queryset

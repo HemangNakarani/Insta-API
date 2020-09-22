@@ -20,18 +20,18 @@
 - Post Management
 - Request-Follow-Unfollow
 - Like, Comment
-- Chat
+- Realtime Chat
 - Real time Notifications
 - Story for 24 hours
 - Archived Stories,Posts
 
 ## Development
 - You should have PostgreSQL and Redis-Server running on your machine
-  - For setting up Database and Password run
+  - For setting up Database and Password, run following commands in terminal
   ```
-  psql -U postgres  -For Windows
-  sudo -u postgres psql -For Linux
-
+  psql -U postgres                 -[ For Windows ]
+  sudo -u postgres psql            -[ For Linux   ]
+ 
   postgres=# CREATE USER instagram WITH SUPERUSER CREATEDB CREATEROLE PASSWORD 'instagram';
   postgres=# CREATE DATABASE instagram OWNER instagram;
   ```
